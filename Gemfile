@@ -14,11 +14,17 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'bootsnap'
+gem 'bootstrap', '~> 5.0.0.beta2'
 gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
   gem 'pry'
   gem 'travis'
+  gem 'shoulda-matchers'
+  gem 'launchy'
+  gem 'orderly'
+  gem 'rspec-rails'
+  gem 'simplecov'
 end
 
 group :development do
@@ -31,8 +37,8 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'launchy'
-  gem 'simplecov'
+  gem 'faker'
+  gem 'factory_bot_rails'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
