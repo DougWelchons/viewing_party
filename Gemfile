@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'bootsnap'
 gem 'bootstrap', '~> 5.0.0.beta2'
 gem 'jbuilder', '~> 2.5'
+gem 'bcrypt'
 
 group :development, :test do
   gem 'pry'
@@ -23,19 +24,17 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'launchy'
   gem 'orderly'
-  gem 'rspec-rails'
   gem 'simplecov'
+  gem 'rspec-rails'
 end
 
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop-rails'
-  gem 'travis'
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'capybara'
   gem 'faker'
   gem 'factory_bot_rails'
