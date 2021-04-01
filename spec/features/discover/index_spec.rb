@@ -56,7 +56,7 @@ RSpec.describe "Discover index page" do
           click_button "Search"
 
           expect(current_path).to eq(movies_path)
-
+          save_and_open_page
           expect(page).to have_link("Fight Club")
           expect(page).to have_link("Insane Fight Club")
           expect(page).to have_link("Insane Fight Club II - This Time It’s Personal")
