@@ -25,7 +25,7 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 01 Apr 2021 02:22:46 GMT
+      - Thu, 01 Apr 2021 02:37:53 GMT
       Server:
       - openresty
       Access-Control-Allow-Origin:
@@ -40,15 +40,13 @@ http_interactions:
       Vary:
       - Accept-Encoding
       X-Cache:
-      - Hit from cloudfront
+      - Miss from cloudfront
       Via:
-      - 1.1 a3b5bb90516201e5ddd137696b7b0f51.cloudfront.net (CloudFront)
+      - 1.1 82c2ab57bc9900898383f6b70681b9e7.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - SEA19-C3
       X-Amz-Cf-Id:
-      - P4CAk1PBT44Uqn0PdRy2UKKf88c5nvZxeF5sjSHWxGnvI_cJegSocA==
-      Age:
-      - '115'
+      - F2fEcYAzVI5v-S647W3zy2u76Ey4ECdPLoIssn7k5-7eTsYRwg7jbg==
     body:
       encoding: ASCII-8BIT
       string: '{"page":1,"results":[{"adult":false,"backdrop_path":"/dFYguAfeVt19qAbzJ5mArn7DEJw.jpg","genre_ids":[16,10751],"id":12,"original_language":"en","original_title":"Finding
@@ -67,7 +65,7 @@ http_interactions:
         search for answers about her past. What can she remember? Who are her parents?
         And where did she learn to speak Whale?","popularity":35.462,"poster_path":"/3UVe8NL1E2ZdUZ9EDlKGJY5UzE.jpg","release_date":"2016-06-16","title":"Finding
         Dory","video":false,"vote_average":7,"vote_count":9778}],"total_pages":1,"total_results":3}'
-  recorded_at: Thu, 01 Apr 2021 02:24:41 GMT
+  recorded_at: Thu, 01 Apr 2021 02:37:53 GMT
 - request:
     method: get
     uri: https://api.themoviedb.org/3/search/movie?api_key=tmdb_movie_api_key&include_adult=false&language=en-US&page=2&query=finding%20nemo
@@ -102,23 +100,21 @@ http_interactions:
       - ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After,
         Content-Length, Content-Range
       Date:
-      - Thu, 01 Apr 2021 02:22:47 GMT
+      - Thu, 01 Apr 2021 02:37:53 GMT
       Cache-Control:
       - public, max-age=600
       Etag:
       - 0aa01d7c5a2ad354e02fcf2673c6b866
       X-Cache:
-      - Hit from cloudfront
+      - RefreshHit from cloudfront
       Via:
-      - 1.1 a3b5bb90516201e5ddd137696b7b0f51.cloudfront.net (CloudFront)
+      - 1.1 2750b94b402c92287d764b5fa115a042.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - SEA19-C3
       X-Amz-Cf-Id:
-      - iuqpjpwnQqOlofYTgCIYlDgr7gBDaWyjfS4JWdjbLZZb5XVrmVaKJA==
-      Age:
-      - '115'
+      - q-2KiAugzPSj4KFFbAjy8VIMxJpIcjiPUQQsK9BQ3KXRdHxkMeFglA==
     body:
       encoding: UTF-8
       string: '{"page":2,"results":[],"total_pages":1,"total_results":3}'
-  recorded_at: Thu, 01 Apr 2021 02:24:42 GMT
+  recorded_at: Thu, 01 Apr 2021 02:37:53 GMT
 recorded_with: VCR 6.0.0
