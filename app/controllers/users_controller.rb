@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create, :login]
+  skip_before_action :require_login, only: %i[new create login]
   def login
     @user = User.find_by(email: params[:email].downcase)
     if @user && @user.authenticate(params[:password])
@@ -36,10 +36,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
-   session[:user_id] = nil
-   flash[:success] = "You have been logged out!"
-   redirect_to '/'
- end
+    session[:user_id] = nil
+    flash[:success] = 'You have been logged out!'
+    redirect_to '/'
+  end
 
   private
 

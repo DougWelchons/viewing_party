@@ -1,15 +1,15 @@
 class MovieService
   def self.top_rated(limit)
-    self.get_needed_info("movie/top_rated?language=en-US", limit)
+    get_needed_info('movie/top_rated?language=en-US', limit)
   end
 
   def self.search(keywords, limit)
     keywords = keywords.gsub(/ /, '%20')
-    self.get_needed_info("search/movie?language=en-US&query=#{keywords}&include_adult=false", limit)
+    get_needed_info("search/movie?language=en-US&query=#{keywords}&include_adult=false", limit)
   end
 
   def self.trending(limit)
-    self.get_needed_info("trending/movie/week?", limit)
+    get_needed_info('trending/movie/week?', limit)
   end
 
   def self.get_needed_info(uri, limit)
@@ -29,6 +29,7 @@ class MovieService
   def self.movies_by_cast_id(id, limit)
     info = make_api_call("person/#{id}/movie_credits?language=en-US")
     return info if info[:error]
+
     create_objects(info[:cast], limit)
   end
 
@@ -51,6 +52,7 @@ class MovieService
                      poster_path: details[:poster_path]
                    })
   end
+
   def self.person_info(id)
     details = make_api_call("person/#{id}?language=en-US")
     return details if details[:error]

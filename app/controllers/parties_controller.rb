@@ -2,7 +2,8 @@ class PartiesController < ApplicationController
   before_action :current_user
   before_action :set_movie, only: [:create]
   def new
-    @movie = Movie.find_or_create_by(name: params[:title], duration: params[:duration], poster_path: params[:poster_path])
+    @movie = Movie.find_or_create_by(name: params[:title], duration: params[:duration],
+                                     poster_path: params[:poster_path])
     @party = Party.new(movie_id: @movie.id, host_id: current_user.id, duration: @movie.duration)
   end
 

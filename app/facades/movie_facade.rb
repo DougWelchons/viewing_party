@@ -1,9 +1,9 @@
 class MovieFacade
   def self.search_results(search, limit)
     if search == 'Top Rated'
-      self.top_rated(limit)
+      top_rated(limit)
     elsif search == 'Trending Movies'
-      self.trending(10)
+      trending(10)
     elsif search && search != ''
       self.search(search, limit)
     end
@@ -24,5 +24,4 @@ class MovieFacade
   def self.movie_info(api_movie_id)
     MovieService.movie_info(api_movie_id)
   end
-
 end
