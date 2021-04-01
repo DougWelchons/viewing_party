@@ -1,23 +1,22 @@
 class MovieService
   def self.top_rated(limit)
-    @results = []
-    page_num = 1
-    until @results.count >= limit
-      info = make_api_call("movie/top_rated?language=en-US&page=#{page_num}")
-      return info if info[:error]
-
-      @results += info[:results]
-      page_num += 1
-    end
-    create_objects(@results, limit)
+    self.get_needed_info("movie/top_rated?language=en-US", limit)
   end
 
   def self.search(keywords, limit)
     keywords = keywords.gsub(/ /, '%20')
+    self.get_needed_info("search/movie?language=en-US&query=#{keywords}&include_adult=false", limit)
+  end
+
+  def self.trending(limit)
+    self.get_needed_info("trending/movie/week?", limit)
+  end
+
+  def self.get_needed_info(uri, limit)
     @results = []
     page_num = 1
     until @results.count >= limit
-      info = make_api_call("search/movie?language=en-US&query=#{keywords}&page=#{page_num}&include_adult=false")
+      info = make_api_call("#{uri}&page=#{page_num}")
       return info if info[:error]
       return create_objects(@results, limit) if info[:results].count.zero?
 
@@ -26,24 +25,11 @@ class MovieService
     end
     create_objects(@results, limit)
   end
-
 
   def self.movies_by_cast_id(id, limit)
     info = make_api_call("person/#{id}/movie_credits?language=en-US")
     return info if info[:error]
     create_objects(info[:cast], limit)
-  end
-
-  def self.trending(limit)
-    @results = []
-    until @results.count >= limit 
-      info = make_api_call("trending/movie/week")
-      return info if info[:error]
-      return create_objects(@results, limit) if info[:results].count.zero?
-
-      @results += info[:results]
-    end 
-    create_objects(@results, limit)
   end
 
   def self.movie_info(api_movie_id)
@@ -68,7 +54,7 @@ class MovieService
   def self.person_info(id)
     details = make_api_call("person/#{id}?language=en-US")
     return details if details[:error]
-    
+
     OpenStruct.new({
                      id: details[:id],
                      name: details[:name],
