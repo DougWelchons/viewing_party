@@ -95,25 +95,6 @@ RSpec.describe "Movies index page" do
       click_button "Log In"
     end
 
-    # it "404 error" do
-    #   api_key = ENV['movie_api_key']
-    #   stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{api_key}&language=en-US&page=1").
-    #     # with(
-    #     #   headers: {
-    #     #  # 'Accept'=>'*/*',
-    #     #  # 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-    #     #  # 'User-Agent'=>'Faraday v1.3.0'
-    #     #   }).
-    #     to_return(status: 404, body: "", headers: {})
-    #
-    #   visit movies_path
-    #
-    #   click_button("Find Top Rated Movies")
-    #   expect(current_path).to eq(movies_path)
-    #
-    #   expect(page).to have_content("Sorry, there was a server error while processing your request!")
-    # end
-
     it "500 error" do
       api_key = ENV['movie_api_key']
       stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{api_key}&language=en-US&page=1").

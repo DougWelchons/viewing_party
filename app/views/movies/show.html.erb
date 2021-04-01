@@ -20,7 +20,7 @@
 <section id="movie_cast">
   <p>Actors and Actresses</p>
   <% @movie.cast.each do |name|%>
-  <p><%= name[:name]%> as <%= name[:character]%></p>
+  <p><%= name[:name]%> as <%= name[:character]%> <%= button_to "Other movies with #{name[:name]}", cast_path(name[:id]), params: [name: name[:name]], method: :get %></p>
   <% end%>
 </section>
 

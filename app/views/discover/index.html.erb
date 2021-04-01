@@ -8,6 +8,8 @@
     <center>
       <%= button_to "Find Top Rated Movies", movies_path, method: :get, params: [search: "Top Rated"] %> <br>
       or <br><br>
+      <%= button_to "Top 10 Trending Movies This Week", movies_path, method: :get, params: [search: "Trending Movies"] %> <br>
+      or <br><br>
       <%= form_with url: movies_path, method: :get, local: true do |form| %>
       <%= form.submit "Search by Title" %><br>
         <%= form.text_field :search %>

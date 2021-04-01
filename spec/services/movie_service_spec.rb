@@ -129,6 +129,28 @@ RSpec.describe "Movie Service" do
     end
   end
 
+  describe ".trending" do
+    it "returns the first 10 trending movies in an array" do
+      VCR.use_cassette('trending_movies_limit_10') do
+        limit = 10
+        expect(MovieService.trending(limit)).to be_an(Array)
+        expect(MovieService.trending(limit)[0]).to be_an(OpenStruct)
+        expect(MovieService.trending(limit).length).to eq(limit)
+      end
+    end
+
+    it "returnes an error if the request is not completed" do
+      api_key = ENV['movie_api_key']
+      stub_request(:get, "https://api.themoviedb.org/3/trending/movie/week?api_key=#{api_key}&page=1").
+        to_return(status: 500, body: "", headers: {})
+
+      limit = 10
+      data = MovieService.trending(limit)
+
+      expect(data).to eq({error: true})
+    end
+  end
+
   describe ".movie_info" do
     it "returnds an OpenStruct object with appropriate values" do
       VCR.use_cassette('all_movie_info') do
@@ -189,7 +211,7 @@ RSpec.describe "Movie Service" do
       expect(MovieService.cast_info(info)[0]).to be_an(Hash)
       expect(MovieService.cast_info(info)[0]).to have_key(:name)
       expect(MovieService.cast_info(info)[0]).to have_key(:character)
-      expect(MovieService.cast_info(info)[0]).to_not have_key(:id)
+      expect(MovieService.cast_info(info)[0]).to have_key(:id)
       expect(MovieService.cast_info(info)[0]).to_not have_key(:popularity)
       expect(MovieService.cast_info(info)[0]).to_not have_key(:profile_path)
     end
@@ -203,7 +225,7 @@ RSpec.describe "Movie Service" do
       expect(MovieService.cast_info(info)[0]).to be_an(Hash)
       expect(MovieService.cast_info(info)[0]).to have_key(:name)
       expect(MovieService.cast_info(info)[0]).to have_key(:character)
-      expect(MovieService.cast_info(info)[0]).to_not have_key(:id)
+      expect(MovieService.cast_info(info)[0]).to have_key(:id)
       expect(MovieService.cast_info(info)[0]).to_not have_key(:popularity)
       expect(MovieService.cast_info(info)[0]).to_not have_key(:profile_path)
     end
@@ -244,6 +266,116 @@ RSpec.describe "Movie Service" do
       expect(MovieService.review_info(info)[0]).to have_key(:author)
       expect(MovieService.review_info(info)[0]).to have_key(:content)
       expect(MovieService.review_info(info)[0]).to_not have_key(:created_at)
+    end
+  end
+
+  describe ".movies_by_cast_id" do
+    it "returns an array of movie objects equal to limit" do
+      VCR.use_cassette('brad_pit_movies') do
+        limit = 10
+        id = 287
+        expect(MovieService.movies_by_cast_id(id, limit)).to be_an(Array)
+        expect(MovieService.movies_by_cast_id(id, limit).length).to be <= limit
+      end
+    end
+
+    it "returns an array of all movie objects if less then the limit" do
+      VCR.use_cassette('brad_pit_movies_limit_500') do
+        limit = 500000
+        id = 287
+        expect(MovieService.movies_by_cast_id(id, limit).length).to be < limit
+      end
+    end
+
+    it "returnds an OpenStruct object with appropriate values" do
+      VCR.use_cassette('brad_pit_movies') do
+        limit = 10
+        id = 287
+        data = MovieService.movies_by_cast_id(id, limit)
+        expect(data[0]).to be_an(OpenStruct)
+        expect(data[0]).to respond_to(:id)
+        expect(data[0]).to respond_to(:title)
+        expect(data[0]).to respond_to(:vote_average)
+        expect(data[0]).to respond_to(:poster_path)
+      end
+    end
+
+    it "returnes an error if the request is not completed" do
+      api_key = ENV['movie_api_key']
+      stub_request(:get, "https://api.themoviedb.org/3/person/287/movie_credits?api_key=#{api_key}&language=en-US").
+        to_return(status: 500, body: "", headers: {})
+        limit = 10
+        id = 287
+      data = MovieService.movies_by_cast_id(id, limit)
+
+      expect(data).to eq({error: true})
+    end
+  end
+
+  describe ".person_info" do
+    it "returnds an OpenStruct object with appropriate values" do
+      VCR.use_cassette('person_info') do
+        id = 287
+        data = MovieService.person_info(id)
+        expect(data).to be_an(OpenStruct)
+        expect(data).to respond_to(:id)
+        expect(data).to respond_to(:name)
+        expect(data).to respond_to(:biography)
+        expect(data).to respond_to(:profile_path)
+      end
+    end
+
+    it "returnes an error if the request is not completed" do
+      api_key = ENV['movie_api_key']
+      stub_request(:get, "https://api.themoviedb.org/3/person/287?api_key=#{api_key}&language=en-US").
+      to_return(status: 500, body: "", headers: {})
+      id = 287
+      data = MovieService.person_info(id)
+
+      expect(data).to eq({error: true})
+    end
+  end
+
+  describe ".get_needed_info" do
+    it "returns an array of movie objects equal to limit" do
+      VCR.use_cassette('get_needed_info_limit_50') do
+        limit = 50
+        uri = "movie/top_rated?language=en-US"
+        expect(MovieService.get_needed_info(uri, limit)).to be_an(Array)
+        expect(MovieService.get_needed_info(uri, limit).length).to be <= limit
+      end
+    end
+
+    it "returns an array of all movie objects if less then the limit" do
+      VCR.use_cassette('get_needed_info_short') do
+        limit = 40
+        uri = "search/movie?language=en-US&query=finding%20nemo&include_adult=false"
+        expect(MovieService.get_needed_info(uri, limit).length).to be <= limit
+      end
+    end
+
+    it "returnds an OpenStruct object with appropriate values" do
+      VCR.use_cassette('get_needed_info_40') do
+        limit = 40
+        uri = "movie/top_rated?language=en-US"
+        data = MovieService.get_needed_info(uri, limit)
+        expect(data[0]).to be_an(OpenStruct)
+        expect(data[0]).to respond_to(:id)
+        expect(data[0]).to respond_to(:title)
+        expect(data[0]).to respond_to(:vote_average)
+        expect(data[0]).to respond_to(:poster_path)
+      end
+    end
+
+    it "returnes an error if the request is not completed" do
+      api_key = ENV['movie_api_key']
+      stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{api_key}&language=en-US&page=1").
+        to_return(status: 500, body: "", headers: {})
+      uri = "movie/top_rated?language=en-US"
+      limit = 40
+      data = MovieService.get_needed_info(uri, limit)
+
+      expect(data).to eq({error: true})
     end
   end
 end

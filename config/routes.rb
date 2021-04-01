@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/discover', to: 'discover#index'
 
   resources :parties, only: [:new, :create]
+  resources :cast, only: [:show]
 
 
   resources :friends, only: [:create]

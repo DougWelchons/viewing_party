@@ -1,0 +1,31 @@
+<% if @show.results == {error: true} || @show.person == {error: true} %>
+  Sorry, there was a server error while processing your request!
+<% else %>
+  <img src="https://image.tmdb.org/t/p/w200<%=@show.person.profile_path%>">
+  <h1><%= @show.person.name %></h1>
+  <p>
+    Biograph:<br>
+    <%= @show.person.biography %>
+  </p>
+
+  <h1>Movies that <%= @show.person.name %> has stared in:</h1>
+  <center class="results">
+    <% if @show.results %>
+      <table style="width:90%">
+        <th></th>
+        <th></th>
+        <% @show.results.each do |movie| %>
+          <tr id="<%= movie.id %>">
+            <td style="text-align: center"><img src="https://image.tmdb.org/t/p/w200<%=movie.poster_path%>" alt="<%= movie.title %>" style="max-height: 100px; max-width: 150px"></td>
+            <td>
+              <%= link_to movie.title, movie_path(movie.id) %><br>
+              Average vote: <%= movie.vote_average %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <br> Oh no! No search results found.
+    <% end %>
+  </center>
+<% end %>

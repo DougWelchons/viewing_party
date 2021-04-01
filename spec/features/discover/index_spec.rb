@@ -63,5 +63,24 @@ RSpec.describe "Discover index page" do
         end
       end
     end
+
+    it "shows a link to find the trending movies" do
+      visit discover_path
+
+      expect(page).to have_button('Top 10 Trending Movies This Week')
+    end
+
+    it "redirects to the movies page and shows the top rated movies" do
+      VCR.use_cassette('trending_movies') do
+        visit discover_path
+
+        click_button("Top 10 Trending Movies This Week")
+
+        expect(current_path).to eq(movies_path)
+
+        expect(page).to have_content("Zack Snyder's Justice League")
+        expect(page).to have_content("Godzilla vs. Kong")
+      end
+    end
   end
 end
