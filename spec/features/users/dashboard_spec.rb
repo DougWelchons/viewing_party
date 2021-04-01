@@ -25,6 +25,15 @@ RSpec.describe "Dashboard" do
   end
 
   describe "when I visit a user dashboard it" do
+    it "has a logout button" do 
+      within "#navbar" do
+      expect(page).to have_link("logout")
+      
+      click_link("logout")
+      end
+      expect(current_path).to eq(root_path) 
+    end 
+
     it "has a welcome header" do
       expect(current_path).to eq(dashboard_path)
       expect(page).to have_content("Welcome #{@user.name}!")
