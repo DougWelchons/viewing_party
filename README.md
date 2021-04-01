@@ -30,3 +30,8 @@ Example wireframes to follow are found [here](https://backend.turing.io/module3/
 ## Database Schema
 
 <img width="901" alt="Screen Shot 2021-03-22 at 4 14 53 PM" src="https://user-images.githubusercontent.com/70593322/112065213-e2355c80-8b29-11eb-98d7-aa4f975926ef.png">
+
+
+## Welcome Page 
+
+![Screen Shot 2021-04-01 at 6 59 33 AM](https://user-images.githubusercontent.com/70593322/113297550-fad70c80-92b7-11eb-8f0a-776aec7be210.png)
