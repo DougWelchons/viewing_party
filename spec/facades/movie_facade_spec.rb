@@ -98,7 +98,7 @@ RSpec.describe "Movie Facade" do
       end
     end
   end
-  
+
   describe ".trending" do
     it "returns an array of movie objects equal to or less the limit" do
       VCR.use_cassette('trending_movies') do
@@ -118,6 +118,38 @@ RSpec.describe "Movie Facade" do
         expect(data[0]).to respond_to(:vote_average)
         expect(data[0]).to respond_to(:poster_path)
       end
+    end
+  end
+
+  describe ".search_results" do
+    it "can hit top rated" do
+      search = "Top Rated"
+      limit = 1
+      expect(MovieFacade).to receive(:top_rated)
+      MovieFacade.search_results(search, limit)
+    end
+
+    it "can hit trending movies" do
+      search = 'Trending Movies'
+      limit = 1
+      expect(MovieFacade).to receive(:trending)
+      MovieFacade.search_results(search, limit)
+    end
+
+    it "can hit search" do
+      search = 'something else'
+      limit = 1
+      expect(MovieFacade).to receive(:search).with(search, limit)
+      MovieFacade.search_results(search, limit)
+    end
+
+    it "wont hit any end points without a serch keyword" do
+      search = ''
+      limit = 1
+      expect(MovieFacade).to_not receive(:top_rated)
+      expect(MovieFacade).to_not receive(:trending)
+      expect(MovieFacade).to_not receive(:search).with(search, limit)
+      MovieFacade.search_results(search, limit)
     end
   end
 end
